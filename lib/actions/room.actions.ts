@@ -6,29 +6,29 @@ import { revalidatePath } from "next/cache";
 import { parseStringify } from "../utils";
 
 export const createDocument = async ({ userId, email }:CreateDocumentParams) => {
-    const roomId = nanoid();
+  const roomId = nanoid();
 
-   try {
-    const metadata = {
-      creatorId: userId,
-      email,
-      title: 'Untitled'
-    }
+  try {
+  const metadata = {
+    creatorId: userId,
+    email,
+    title: 'Untitled'
+  }
 
-    const usersAccesses: RoomAccesses = {
-      [email]: ['room:write']
-    }
-    
-    const room = await liveblocks.createRoom(roomId, {
-      metadata,
-      usersAccesses,
-      defaultAccesses: []
-    });
+  const usersAccesses: RoomAccesses = {
+    [email]: ['room:write']
+  }
+  
+  const room = await liveblocks.createRoom(roomId, {
+    metadata,
+    usersAccesses,
+    defaultAccesses: []
+  });
 
-      revalidatePath('/');
+    revalidatePath('/');
 
-      return parseStringify(room);
-    } catch (error) {
-      console.log(`Error happened while creating a room: ${error}`);
-    }
+    return parseStringify(room);
+  } catch (error) {
+    console.log(`Error happened while creating a room: ${error}`);
+  }
 }
